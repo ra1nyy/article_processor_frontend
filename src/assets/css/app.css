@@ -1,0 +1,24 @@
+a {
+    text-decoration: none;
+}
+
+.navbar-brand {
+    font-weight: bolder;
+}
+
+.h-exclude-header {
+    height: calc(100vh - 50px);
+}
+
+.me-auto .nav-item a {
+    transition: 0.2s linear;
+    color: var(--bs-nav-link-color);
+}
+
+.me-auto .nav-item a:hover {
+    color: var(--bs-nav-link-hover-color);
+}
+
+.me-auto .nav-item a:active {
+    color: white;
+}
