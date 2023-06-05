@@ -40,6 +40,7 @@ export const Articles = () => {
 
     const downloadFile = (file_id) => {
         protectedAxios(axiosInstance.get, `/file/${file_id}`, {responseType: 'blob'}).then(r => {
+            console.log(r)
             const href = URL.createObjectURL(r.data);
 
             const link = document.createElement('a');

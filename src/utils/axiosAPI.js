@@ -14,6 +14,8 @@ const axiosInstance = axios.create({
     }
 });
 
+axiosInstance.defaults.baseURL = '/api/';
+
 axiosInstance.interceptors.response.use(r => r, (r) => {
     console.log(r)
 })

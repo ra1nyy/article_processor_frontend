@@ -2,6 +2,7 @@ import {Container, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../auth";
 import {useContext} from "react";
+import {fullExit} from "../../utils/axiosAPI";
 
 export const Header = () => {
     const {user} = useContext(AuthContext);
@@ -19,7 +20,7 @@ export const Header = () => {
                         <NavDropdown.Item onClick={() => navigate('/profile')}>
                             Профиль
                         </NavDropdown.Item>
-                        <NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => fullExit()}>
                             Выход
                         </NavDropdown.Item>
                     </NavDropdown>

@@ -26,7 +26,7 @@ export const loginSubmit = async (values) => {
     loginPayload.set('password', values?.password)
 
 
-    return axios.post("/login", loginPayload, {
+    return axios.post("/api/login", loginPayload, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'accept': 'application/json'
@@ -53,7 +53,7 @@ export const logoutSubmit = () => {
         refresh_token: localStorage.getItem('refresh_token'),
     }
 
-    protectedAxios(axiosInstance.post, "/api/logout/", logoutPayload)
+    protectedAxios(axiosInstance.post, "/logout/", logoutPayload)
         .then(response => {
             localStorage.clear();
             setAuthToken();
