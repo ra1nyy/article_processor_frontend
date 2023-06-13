@@ -1,6 +1,4 @@
 import axiosInstance, {protectedAxios} from "../utils/axiosAPI";
-import {toast} from 'react-toastify';
-import {json} from "react-router-dom";
 import axios from "axios";
 
 export const setAuthToken = token => {

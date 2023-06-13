@@ -27,7 +27,7 @@ export const TableSheet = (props) => {
     }
 
     return <Fragment>
-        <Table striped={true} hover={true} bordered={true} size={'sm'}>
+        <Table striped={true} hover={true} bordered={true} size={'lg'} id={props.id}>
             <Thead/>
             <Tbody/>
         </Table>

@@ -8,6 +8,7 @@ import {ArticleForm} from "../../screens/form/form";
 import {BaseLayout} from "../base/base";
 import {Profile} from "../../screens/profile/profile";
 import {Articles} from "../../screens/articles/articles";
+import {Registration} from "../../screens/registration/registration";
 
 
 const SiteRoutes = () => {
@@ -23,6 +24,7 @@ const SiteRoutes = () => {
                         </BaseLayout>
                     }/>
                     <Route path="/login" element={<RoutePublic component={Login}/>}/>
+                    <Route path="/registration" element={<RoutePublic component={Registration}/>}/>
                     <Route path="/form" element={
                         <BaseLayout>
                             <RouteGuard component={ArticleForm}/>

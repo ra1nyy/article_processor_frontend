@@ -4,6 +4,7 @@ import {Field, FormikProvider, useFormik} from "formik";
 import {FormikSelect, Input} from "../../components/forms/fields";
 import {useNavigate} from "react-router-dom";
 import axiosInstance, {protectedAxios} from "../../utils/axiosAPI";
+import axios from "axios";
 
 export const ArticleForm = () => {
     const navigate = useNavigate();
@@ -16,15 +17,13 @@ export const ArticleForm = () => {
             scientific_adviser_department: '',
             attached_article_text: '',
             list_of_references: '',
-
-            //TODO
             keywords_rus: '',
             keywords_eng: '',
             abstract_rus: '',
             abstract_eng: '',
             title_rus: '',
             title_eng: '',
-            //
+            udc: '',
             authors_ids: []
         },
         onSubmit: values => handleSubmit(values),
@@ -72,10 +71,16 @@ export const ArticleForm = () => {
     }, [stage])
 
     const handleSubmit = (values) => {
-        // console.log(values)
-        protectedAxios(axiosInstance.post, '/article', values).then(r => {
-            navigate('/article')
-        })
+        let payload = {...values};
+        if (article_type === 'text') {
+            protectedAxios(axiosInstance.post, '/article', payload).then(r => {
+                navigate('/article')
+            })
+        } else {
+            delete payload.attached_article_text;
+            delete payload.list_of_references;
+
+        }
     }
 
     const nextStage = () => {
@@ -88,6 +93,20 @@ export const ArticleForm = () => {
         if (stage - 1 >= 1) {
             setStage(stage - 1)
         }
+    }
+
+    const loadFile = (e) => {
+        console.log('LOAD')
+        let formData = new FormData();
+        let blobFile = e.target.files[0];
+        let fileName = `${blobFile.name}.${blobFile.extension}`;
+        let file = new File([blobFile.blob], fileName);
+        formData.append('file', blobFile, file.name);
+        protectedAxios(axiosInstance.post, '/file', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }).then()
     }
 
     return <Fragment>
@@ -158,6 +177,12 @@ export const ArticleForm = () => {
                                 </Fragment> : null}
                             {stage === 3 ?
                                 <Fragment>
+                                    <Input value={form.values.udc}
+                                           name={'udc'}
+                                           className={'mb-4'}
+                                           onChange={form.handleChange}
+                                           label={'УДК'}
+                                    />
                                     <Input value={form.values.abstract_rus}
                                            name={'abstract_rus'}
                                            as={'textarea'}
@@ -201,7 +226,7 @@ export const ArticleForm = () => {
 
                                     </Fragment> : null}
                                     {article_type === 'file' ? <Fragment>
-                                        <Form.Control type={'file'}/>
+                                        <Form.Control type={'file'} onChange={(e) => loadFile(e)}/>
                                     </Fragment> : null}
                                 </Fragment> : null}
                             {stage === 4 ?
@@ -218,24 +243,6 @@ export const ArticleForm = () => {
                                            onChange={form.handleChange}
                                            label={'Ключевые слова на английском'}
                                     />
-                                    {/*<Input value={form.values.abstract_rus}*/}
-                                    {/*       name={'abstract_rus'}*/}
-                                    {/*       className={'mb-4'}*/}
-                                    {/*       onChange={form.handleChange}*/}
-                                    {/*       label={'Аннотация на русском'}*/}
-                                    {/*/>*/}
-                                    {/*<Input value={form.values.abstract_eng}*/}
-                                    {/*       name={'abstract_eng'}*/}
-                                    {/*       className={'mb-4'}*/}
-                                    {/*       onChange={form.handleChange}*/}
-                                    {/*       label={'Аннотация на английском'}*/}
-                                    {/*/>*/}
-                                    {/*<Input value={form.values.attached_article_text}*/}
-                                    {/*       name={'attached_article_text'}*/}
-                                    {/*       className={'mb-4'}*/}
-                                    {/*       onChange={form.handleChange}*/}
-                                    {/*       label={'Текст статьи'}*/}
-                                    {/*/>*/}
                                 </Fragment> : null}
                         </Form>
                         <div className={'text-center mt-4'}>

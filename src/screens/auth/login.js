@@ -3,6 +3,7 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 import {useFormik} from "formik";
 import {Input} from "../../components/forms/fields";
 import {loginSubmit} from "../../actions/auth";
+import {Link} from "react-router-dom";
 
 export const Login = () => {
     const form = useFormik({
@@ -44,6 +45,7 @@ export const Login = () => {
                         <Button style={{width: '100%'}} onClick={form.submitForm}>
                             Войти
                         </Button>
+                        <Link to={'/registration'} className={'mt-3 d-block'}>Регистрация</Link>
                     </Form>
                     <hr/>
                 </Col>
