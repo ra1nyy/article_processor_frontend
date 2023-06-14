@@ -11,19 +11,19 @@ export const Registration = () => {
         initialValues: {
             first_name: '',
             last_name: '',
+            password: '',
+            role: 'user',
             surname: '',
             username: '',
             email: '',
             place_of_study: '',
             study_group_number: '',
-            place_of_work: '',
-            social_network_url: '',
         },
         onSubmit: values => handleSubmit(values),
     });
 
     const handleSubmit = (values) => {
-        axios.post('/api/auth/registration', values).then(r => {
+        axios.post('/api/register', values).then(r => {
             navigate('/login');
         }).catch();
     }
@@ -99,18 +99,14 @@ export const Registration = () => {
                                 />
                             </Col>
                         </Row>
-                        <Input value={form.values.place_of_work}
-                               name={'place_of_work'}
+                        <Input value={form.values.password}
+                               name={'password'}
+                               type={'password'}
                                className={'mb-4'}
                                onChange={form.handleChange}
-                               label={'Место работы'}
+                               label={'Пароль'}
                         />
-                        <Input value={form.values.social_network_url}
-                               name={'social_network_url'}
-                               className={'mb-4'}
-                               onChange={form.handleChange}
-                               label={'Социальная сеть'}
-                        />
+
                         <Button style={{width: '100%'}} onClick={form.submitForm}>
                             Зарегистрироваться
                         </Button>

@@ -16,6 +16,7 @@ export const ArticleForm = () => {
             scientific_adviser_institute: '',
             scientific_adviser_department: '',
             attached_article_text: '',
+            attached_docs_id: null,
             list_of_references: '',
             keywords_rus: '',
             keywords_eng: '',
@@ -79,7 +80,9 @@ export const ArticleForm = () => {
         } else {
             delete payload.attached_article_text;
             delete payload.list_of_references;
-
+            protectedAxios(axiosInstance.post, '/article', payload).then(r => {
+                navigate('/article')
+            })
         }
     }
 
@@ -96,17 +99,19 @@ export const ArticleForm = () => {
     }
 
     const loadFile = (e) => {
-        console.log('LOAD')
         let formData = new FormData();
-        let blobFile = e.target.files[0];
-        let fileName = `${blobFile.name}.${blobFile.extension}`;
-        let file = new File([blobFile.blob], fileName);
-        formData.append('file', blobFile, file.name);
-        protectedAxios(axiosInstance.post, '/file', formData, {
+        let file = e.target.files[0];
+        formData.append('file_doc', file, file.name);
+        protectedAxios(axiosInstance.post, '/file/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
-        }).then()
+        }).then(r => {
+            if (r.status === 200) {
+                form.setFieldValue('attached_docs_id', r.data?.id)
+                form.setFieldValue('attached_article_text', null)
+            }
+        })
     }
 
     return <Fragment>
